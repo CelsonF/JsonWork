@@ -29,11 +29,21 @@
         /*Realizando a requisição do tipo get e a url a onde está armazenado o arquivo json*/
         request.open('GET',requestURL);
         /*responseType realiza a conversão do JSON para um objeto JS  e sera enviado com metodo send*/
-        request.responseType = 'json';
+        
+        //Recebendo um objeto java script JSON
+        // request.responseType = 'json';
+        
+        request.responseType='text'; //Estamos pegando de uma string 
         request.send();
 
         request.onload = function() {
-            const superHeroes = request.response;
+           const superHeroesText = request.response; //Armazenando string que foi retornada do response
+
+            //Recebendo objeto JS
+            // let superHeroes = request.response;
+
+            const superHeroes = JSON.parse(superHeroesText) //Convertendo string em objeto
+
             populateHeader(superHeroes);
             showHeroes(superHeroes);
         }
@@ -55,25 +65,25 @@
         }
 
         function showHeroes(jsonObj) {
-                const heroes = jsonObj['members'];
+                let heroes = jsonObj['members'];
 
             //Para pegar a lista e fazer a varredura da mesma 
             for (let i = 0; i < heroes.length; i++) {
-                const myArticle = document.createElement('article');
-                const myH2 = document.createElement('h2');
-                const myPara1 = document.createElement('p');
-                const myPara2 = document.createElement('p');
-                const myPara3 = document.createElement('p');
-                const myList = document.createElement('ul');
+                let myArticle = document.createElement('article');
+                let myH2 = document.createElement('h2');
+                let myPara1 = document.createElement('p');
+                let myPara2 = document.createElement('p');
+                let myPara3 = document.createElement('p');
+                let myList = document.createElement('ul');
 
                 myH2.textContent = heroes[i].name;
                 myPara1.textContent = `Secret identity: ${heroes[i].secretIdentity}`;
                 myPara2.textContent = `Age: ${heroes[i].age}`;
                 myPara3.textContent = `Superpowers:`;
 
-                const superPowers = heroes[i].powers;
+                let superPowers = heroes[i].powers;
                 for (let j = 0; j < superPowers.length; j++) {
-                    const listItem = document.createElement('li');
+                    let listItem = document.createElement('li');
                     listItem.textContent = superPowers[j];
                     myList.appendChild(listItem);
                 }
@@ -88,7 +98,10 @@
 
             }
         }
-
+        
+        //Exemple for add New SuperHero 
+        //myNewJsonObject = {"members": [{ "name": "Jequi Celson", "age": "22","secretIdentity":"Celson Rodrigues","powers" : ["Smile Malignus","Transform peoples in mouses"] }]};
+        //Utilize function showHeroes(myNewJsonObject)
 
     </script>
 </body>
